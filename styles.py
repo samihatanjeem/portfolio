@@ -6,7 +6,7 @@ CUSTOM_CSS = """
 <style>
     /* Tighten default top padding */
     .block-container {
-        padding-top: 1.2rem;
+        padding-top: 2.2rem;
         padding-bottom: 4rem;
         max-width: 900px;
     }

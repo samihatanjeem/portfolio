@@ -1,3 +1,4 @@
+import base64
 import os
 
 import streamlit as st
@@ -18,7 +19,19 @@ col_img, col_text = st.columns([1, 2], gap="large")
 
 with col_img:
     if os.path.exists(PROFILE["profile_image"]):
-        st.image(PROFILE["profile_image"], use_container_width=True)
+        with open(PROFILE["profile_image"], "rb") as f:
+            img_b64 = base64.b64encode(f.read()).decode()
+        ext = os.path.splitext(PROFILE["profile_image"])[1].lstrip(".").lower()
+        mime = "jpeg" if ext in ("jpg", "jpeg") else ext
+        st.markdown(
+            f"""
+            <div style="width:100%; aspect-ratio:1/1; border-radius:50%; overflow:hidden;">
+                <img src="data:image/{mime};base64,{img_b64}"
+                     style="width:100%; height:100%; object-fit:cover; display:block;" />
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     else:
         st.markdown(
             """
