@@ -51,7 +51,6 @@ PROJECTS = [
             "multicollinearity, heteroskedasticity, and autocorrelation checks."
         ),
         "tags": ["R", "dplyr", "tidyr", "ggplot2", "sandwich", "lmtest", "corrplot"],
-        "image": "https://opengraph.githubassets.com/1/samihatanjeem/U.S-Stocks-Predictive-Analysis",
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/U.S-Stocks-Predictive-Analysis",
     },
@@ -68,7 +67,6 @@ PROJECTS = [
             "predict total revenue across major fast-food chains."
         ),
         "tags": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
-        "image": "https://opengraph.githubassets.com/1/samihatanjeem/Fast-Food_served_with_Regression",
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/Fast-Food_served_with_Regression",
     },
@@ -86,7 +84,6 @@ PROJECTS = [
             "pipeline each time."
         ),
         "tags": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
-        "image": "https://opengraph.githubassets.com/1/samihatanjeem/Python-ML-Analytics-Workspace",
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/Python-ML-Analytics-Workspace",
     },
@@ -104,7 +101,6 @@ PROJECTS = [
             "a continuous outcome (fuel efficiency) and a binary one (survival)."
         ),
         "tags": ["R", "ggplot2", "caret", "lm", "glm", "pROC"],
-        "image": "https://opengraph.githubassets.com/1/samihatanjeem/MTCars-Titanic-R-Linear-Regression",
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/MTCars-Titanic-R-Linear-Regression",
     },
