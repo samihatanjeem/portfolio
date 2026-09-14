@@ -45,6 +45,11 @@ PROJECTS = [
             "ratios and full multicollinearity, heteroskedasticity, and "
             "autocorrelation diagnostics."
         ),
+        "impact": (
+            "Identified the strongest financial predictors of next-period ROA "
+            "across 12,129 U.S. firms, with the model validated against "
+            "multicollinearity, heteroskedasticity, and autocorrelation checks."
+        ),
         "tags": ["R", "dplyr", "tidyr", "ggplot2", "sandwich", "lmtest", "corrplot"],
         "image": "https://opengraph.githubassets.com/1/samihatanjeem/U.S-Stocks-Predictive-Analysis",
         "demo_url": "",
@@ -57,6 +62,10 @@ PROJECTS = [
             "Performed exploratory data analysis and multivariate regression on "
             "U.S. fast-food market data to predict total sales and find key "
             "relationships among store count, unit sales, and revenue."
+        ),
+        "impact": (
+            "Pinpointed which factors, store count vs. unit sales, most strongly "
+            "predict total revenue across major fast-food chains."
         ),
         "tags": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
         "image": "https://opengraph.githubassets.com/1/samihatanjeem/Fast-Food_served_with_Regression",
@@ -71,6 +80,11 @@ PROJECTS = [
             "cleaning, visualization, exploratory analysis, and predictive "
             "modeling with linear regression and feature engineering."
         ),
+        "impact": (
+            "A reusable workspace that takes any dataset from raw cleaning "
+            "through EDA to a trained regression model without rewriting the "
+            "pipeline each time."
+        ),
         "tags": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
         "image": "https://opengraph.githubassets.com/1/samihatanjeem/Python-ML-Analytics-Workspace",
         "demo_url": "",
@@ -84,6 +98,10 @@ PROJECTS = [
             "diagnostics, performance evaluation, and visualization to interpret "
             "predictors of car fuel efficiency and Titanic passenger survival "
             "across genders and classes."
+        ),
+        "impact": (
+            "Showed how the same regression diagnostic workflow applies to both "
+            "a continuous outcome (fuel efficiency) and a binary one (survival)."
         ),
         "tags": ["R", "ggplot2", "caret", "lm", "glm", "pROC"],
         "image": "https://opengraph.githubassets.com/1/samihatanjeem/MTCars-Titanic-R-Linear-Regression",
@@ -132,6 +150,7 @@ EXPERIENCE = [
         "role": "UX Research Analyst (Internship)",
         "organization": "PRYPCO",
         "period": "May 2025 – Jul 2025",
+        "impact": "13 customer journey maps directly informed product recommendations for the Prypco One app.",
         "bullets": [
             "Analyzed 13 real-world interviews across buyer, seller, and client "
             "segments in the Dubai real estate market, engineering 13 customer "
@@ -148,6 +167,7 @@ EXPERIENCE = [
         "role": "UX Branding (Internship)",
         "organization": "Praava Health",
         "period": "Sep 2022 – Dec 2022",
+        "impact": "Drove a 27% increase in brand recognition and helped launch the company's first TikTok channel.",
         "bullets": [
             "Analyzed marketing campaign performance using Excel (regression, "
             "pivot tables, ANOVA) and Tableau dashboards to measure KPIs, track "
