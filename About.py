@@ -54,12 +54,31 @@ render_html(
     """
 )
 
-# ---------- Hero / About (with Skills panel on the right) ----------
-if os.path.exists(PROFILE["profile_image"]):
-    photo_html = f'<img src="{file_to_data_uri(PROFILE["profile_image"])}" style="width:100%;height:100%;object-fit:cover;display:block;" />'
+# ---------- Hero / About (cutout photo over big text, Skills panel on the right) ----------
+first_name = PROFILE["name"].split()[0]
+cutout_path = PROFILE.get("profile_cutout_image", "")
+has_cutout = bool(cutout_path) and os.path.exists(cutout_path)
+
+if has_cutout:
+    hero_visual_html = f"""
+        <div class="hero-cutout-wrap">
+            <div class="hero-cutout-text">
+                <div class="hero-greeting">Hey there!</div>
+                <div class="hero-name-big">I'm {first_name}</div>
+            </div>
+            <img class="hero-cutout-photo" src="{file_to_data_uri(cutout_path)}" />
+        </div>
+    """
+elif os.path.exists(PROFILE["profile_image"]):
+    hero_visual_html = f"""
+        <div style="width:220px; height:220px; border-radius:50%; overflow:hidden; margin:0 auto 1.5rem; background:#FBE7EC;">
+            <img src="{file_to_data_uri(PROFILE["profile_image"])}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+    """
 else:
-    photo_html = f"""
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    hero_visual_html = f"""
+        <div style="width:220px; height:220px; border-radius:50%; margin:0 auto 1.5rem; background:#FBE7EC;
+             display:flex;align-items:center;justify-content:center;
              font-size:4rem;color:#C2557A;font-weight:700;">{PROFILE['name'][:1].upper()}</div>
     """
 
@@ -80,20 +99,15 @@ render_html(
     f"""
     <section id="about" class="section">
         <div class="section-inner reveal" {reveal(0.0)}>
+            {hero_visual_html}
+            <div class="hero-below">
+                <div class="hero-title">{PROFILE['title']}</div>
+                <div class="hero-tagline">{PROFILE['tagline']}</div>
+                <div class="icon-row">{social_html}</div>
+            </div>
             <div class="about-grid">
                 <div class="about-left">
-                    <div style="display:flex; gap:2rem; align-items:center; flex-wrap:wrap;">
-                        <div style="width:220px; height:220px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#FBE7EC;">
-                            {photo_html}
-                        </div>
-                        <div style="flex:1; min-width:240px;">
-                            <div class="hero-name">{PROFILE['name']}</div>
-                            <div class="hero-title">{PROFILE['title']}</div>
-                            <div class="hero-tagline">{PROFILE['tagline']}</div>
-                            <div class="icon-row">{social_html}</div>
-                        </div>
-                    </div>
-                    <p style="margin-top:2.5rem; font-size:1.05rem; line-height:1.7;">{PROFILE['bio']}</p>
+                    <p style="font-size:1.05rem; line-height:1.7;">{PROFILE['bio']}</p>
                     <p class="muted">📍 {PROFILE.get('location', '')}</p>
                 </div>
                 <div class="about-right">

@@ -7,7 +7,7 @@ need to touch page layout code just to update your info.
 PROFILE = {
     "name": "Samiha Tanjeem",
     "title": "Data Analyst",
-    "tagline": "Business Analytics graduate turning data into decisions.",
+    "tagline": "Cat mom turning numbers into stories, one dataset at a time.",
     "bio": (
         "I'm a Business Analytics graduate from East Texas A&M University "
         "(GPA 3.90). During my internship at PRYPCO, I worked through real "
@@ -25,6 +25,7 @@ PROFILE = {
     "phone": "(737) 288-4846",
     "resume_path": "assets/resume.pdf",
     "profile_image": "assets/profile.jpg",
+    "profile_cutout_image": "assets/profile-cutout.png",
 }
 
 SOCIAL_LINKS = {

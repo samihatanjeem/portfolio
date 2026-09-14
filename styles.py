@@ -129,6 +129,58 @@ CUSTOM_CSS = f"""
         margin-bottom: 1.5rem;
     }}
 
+    /* ---------- Hero cutout (photo overlapping big text) ---------- */
+    .hero-cutout-wrap {{
+        position: relative;
+        min-height: 460px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        overflow: visible;
+    }}
+    .hero-cutout-text {{
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        text-align: center;
+        z-index: 1;
+        pointer-events: none;
+    }}
+    .hero-greeting {{
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        font-weight: 600;
+        color: #C2557A;
+        margin-bottom: -0.3rem;
+    }}
+    .hero-name-big {{
+        font-size: clamp(3rem, 10vw, 6.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: #33262A;
+    }}
+    .hero-cutout-photo {{
+        position: relative;
+        z-index: 2;
+        max-height: 340px;
+        width: auto;
+        max-width: 100%;
+        display: block;
+        filter: drop-shadow(0 24px 28px rgba(51, 38, 42, 0.18));
+    }}
+    .hero-below {{
+        text-align: center;
+        margin-bottom: 3rem;
+    }}
+    .hero-below .hero-title {{ margin-bottom: 0.3rem; }}
+    .hero-below .hero-tagline {{ max-width: none; margin: 0 auto 1.5rem; }}
+    .hero-below .icon-row {{ justify-content: center; }}
+
+    @media (max-width: 640px) {{
+        .hero-cutout-wrap {{ min-height: 300px; }}
+        .hero-cutout-photo {{ max-height: 300px; }}
+    }}
+
     /* ---------- About section layout (skills panel on the right) ---------- */
     .about-grid {{
         display: grid;
