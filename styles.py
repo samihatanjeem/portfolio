@@ -129,6 +129,29 @@ CUSTOM_CSS = f"""
         margin-bottom: 1.5rem;
     }}
 
+    /* ---------- About section layout (skills panel on the right) ---------- */
+    .about-grid {{
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 3rem;
+        align-items: start;
+    }}
+    .skills-panel {{
+        background: #FFFFFF;
+        border: 1px solid rgba(232, 135, 158, 0.22);
+        border-radius: 16px;
+        padding: 1.5rem 1.5rem;
+    }}
+    .skills-panel-title {{
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #33262A;
+        margin-bottom: 1rem;
+    }}
+    @media (max-width: 820px) {{
+        .about-grid {{ grid-template-columns: 1fr; }}
+    }}
+
     /* ---------- Fade/slide-in on load ---------- */
     @keyframes fadeSlideUp {{
         from {{ opacity: 0; transform: translateY(16px); }}

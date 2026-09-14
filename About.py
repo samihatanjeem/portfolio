@@ -41,7 +41,7 @@ def reveal(delay: float = 0.0) -> str:
 
 
 # ---------- Sticky nav ----------
-nav_links = ["About", "Projects", "Skills", "Certifications", "Experience", "Contact"]
+nav_links = ["About", "Education", "Experience", "Projects", "Certifications", "Contact"]
 nav_html = "".join(f'<a href="#{n.lower()}">{n}</a>' for n in nav_links)
 render_html(
     f"""
@@ -54,13 +54,13 @@ render_html(
     """
 )
 
-# ---------- Hero / About ----------
+# ---------- Hero / About (with Skills panel on the right) ----------
 if os.path.exists(PROFILE["profile_image"]):
     photo_html = f'<img src="{file_to_data_uri(PROFILE["profile_image"])}" style="width:100%;height:100%;object-fit:cover;display:block;" />'
 else:
     photo_html = f"""
         <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-             font-size:3rem;color:#C2557A;font-weight:700;">{PROFILE['name'][:1].upper()}</div>
+             font-size:4rem;color:#C2557A;font-weight:700;">{PROFILE['name'][:1].upper()}</div>
     """
 
 social_icons = {"GitHub": GITHUB, "LinkedIn": LINKEDIN, "Email": MAIL}
@@ -71,23 +71,98 @@ if os.path.exists(PROFILE["resume_path"]):
     resume_data_uri = file_to_data_uri(PROFILE["resume_path"])
     social_html += icon_button(RESUME, resume_data_uri, "Resume")
 
+skill_groups_html = ""
+for category, items in SKILLS.items():
+    tags_html = "".join(f'<span class="tag">{item}</span>' for item in items)
+    skill_groups_html += f'<div class="skill-group-title">{category}</div><div class="tag-row">{tags_html}</div>'
+
 render_html(
     f"""
     <section id="about" class="section">
         <div class="section-inner reveal" {reveal(0.0)}>
-            <div style="display:flex; gap:2.5rem; align-items:center; flex-wrap:wrap;">
-                <div style="width:150px; height:150px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#FBE7EC;">
-                    {photo_html}
+            <div class="about-grid">
+                <div class="about-left">
+                    <div style="display:flex; gap:2rem; align-items:center; flex-wrap:wrap;">
+                        <div style="width:220px; height:220px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#FBE7EC;">
+                            {photo_html}
+                        </div>
+                        <div style="flex:1; min-width:240px;">
+                            <div class="hero-name">{PROFILE['name']}</div>
+                            <div class="hero-title">{PROFILE['title']}</div>
+                            <div class="hero-tagline">{PROFILE['tagline']}</div>
+                            <div class="icon-row">{social_html}</div>
+                        </div>
+                    </div>
+                    <p style="margin-top:2.5rem; font-size:1.05rem; line-height:1.7;">{PROFILE['bio']}</p>
+                    <p class="muted">📍 {PROFILE.get('location', '')}</p>
                 </div>
-                <div style="flex:1; min-width:260px;">
-                    <div class="hero-name">{PROFILE['name']}</div>
-                    <div class="hero-title">{PROFILE['title']}</div>
-                    <div class="hero-tagline">{PROFILE['tagline']}</div>
-                    <div class="icon-row">{social_html}</div>
+                <div class="about-right">
+                    <div class="skills-panel">
+                        <div class="section-label">Tools &amp; areas</div>
+                        <div class="skills-panel-title">Skills</div>
+                        {skill_groups_html if SKILLS else '<p class="muted">No skills added yet.</p>'}
+                    </div>
                 </div>
             </div>
-            <p style="margin-top:2.5rem; font-size:1.05rem; line-height:1.7; max-width:42rem;">{PROFILE['bio']}</p>
-            <p class="muted">📍 {PROFILE.get('location', '')}</p>
+        </div>
+    </section>
+    """
+)
+
+render_html('<div class="divider"></div>')
+
+# ---------- Education ----------
+edu_html = ""
+for edu in EDUCATION:
+    courses_html = ""
+    if edu.get("courses"):
+        tags = "".join(f'<span class="tag">{c}</span>' for c in edu["courses"])
+        courses_html = f'<div class="muted" style="margin-top:0.5rem;">Relevant courses</div><div class="tag-row">{tags}</div>'
+    edu_html += f"""
+        <div class="timeline-item">
+            <div class="card-title">{edu['degree']}</div>
+            <div class="card-meta">{edu['institution']} &nbsp;·&nbsp; {edu['period']}</div>
+            <div class="card-body">{edu.get('description', '')}</div>
+            {courses_html}
+        </div>
+    """
+
+render_html(
+    f"""
+    <section id="education" class="section">
+        <div class="section-inner reveal" {reveal(0.05)}>
+            <div class="section-label">Where I've studied</div>
+            <div class="section-title">Education</div>
+            {edu_html}
+        </div>
+    </section>
+    """
+)
+
+render_html('<div class="divider"></div>')
+
+# ---------- Experience ----------
+exp_html = ""
+for job in EXPERIENCE:
+    bullets = job.get("bullets") or [job.get("description", "")]
+    bullets_html = "".join(f"<li>{b}</li>" for b in bullets if b)
+    impact_html = f'<div class="card-impact"><b>Impact —</b> {job["impact"]}</div>' if job.get("impact") else ""
+    exp_html += f"""
+        <div class="timeline-item">
+            <div class="card-title">{job['role']}</div>
+            <div class="card-meta">{job['organization']} &nbsp;·&nbsp; {job['period']}</div>
+            {impact_html}
+            <ul style="margin:0; padding-left:1.1rem; font-size:0.92rem; line-height:1.6;">{bullets_html}</ul>
+        </div>
+    """
+
+render_html(
+    f"""
+    <section id="experience" class="section">
+        <div class="section-inner reveal" {reveal(0.05)}>
+            <div class="section-label">Where I've worked</div>
+            <div class="section-title">Experience</div>
+            {exp_html}
         </div>
     </section>
     """
@@ -132,29 +207,6 @@ render_html(
 
 render_html('<div class="divider"></div>')
 
-# ---------- Skills ----------
-skill_groups_html = ""
-for category, items in SKILLS.items():
-    tags_html = "".join(f'<span class="tag">{item}</span>' for item in items)
-    skill_groups_html += f"""
-        <div class="skill-group-title">{category}</div>
-        <div class="tag-row">{tags_html}</div>
-    """
-
-render_html(
-    f"""
-    <section id="skills" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
-            <div class="section-label">Tools &amp; areas</div>
-            <div class="section-title">Skills</div>
-            {skill_groups_html if SKILLS else '<p class="muted">No skills added yet.</p>'}
-        </div>
-    </section>
-    """
-)
-
-render_html('<div class="divider"></div>')
-
 # ---------- Certifications ----------
 cert_cards = ""
 for c in CERTIFICATIONS:
@@ -179,55 +231,6 @@ render_html(
             <div class="section-label">Always learning</div>
             <div class="section-title">Certifications</div>
             {cert_cards if CERTIFICATIONS else '<p class="muted">No certifications added yet.</p>'}
-        </div>
-    </section>
-    """
-)
-
-render_html('<div class="divider"></div>')
-
-# ---------- Experience + Education ----------
-exp_html = ""
-for job in EXPERIENCE:
-    bullets = job.get("bullets") or [job.get("description", "")]
-    bullets_html = "".join(f"<li>{b}</li>" for b in bullets if b)
-    impact_html = f'<div class="card-impact"><b>Impact —</b> {job["impact"]}</div>' if job.get("impact") else ""
-    exp_html += f"""
-        <div class="timeline-item">
-            <div class="card-title">{job['role']}</div>
-            <div class="card-meta">{job['organization']} &nbsp;·&nbsp; {job['period']}</div>
-            {impact_html}
-            <ul style="margin:0; padding-left:1.1rem; font-size:0.92rem; line-height:1.6;">{bullets_html}</ul>
-        </div>
-    """
-
-edu_html = ""
-for edu in EDUCATION:
-    courses_html = ""
-    if edu.get("courses"):
-        tags = "".join(f'<span class="tag">{c}</span>' for c in edu["courses"])
-        courses_html = f'<div class="muted" style="margin-top:0.5rem;">Relevant courses</div><div class="tag-row">{tags}</div>'
-    edu_html += f"""
-        <div class="timeline-item">
-            <div class="card-title">{edu['degree']}</div>
-            <div class="card-meta">{edu['institution']} &nbsp;·&nbsp; {edu['period']}</div>
-            <div class="card-body">{edu.get('description', '')}</div>
-            {courses_html}
-        </div>
-    """
-
-render_html(
-    f"""
-    <section id="experience" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
-            <div class="section-label">Where I've worked</div>
-            <div class="section-title">Experience</div>
-            {exp_html}
-        </div>
-        <div class="section-inner reveal" {reveal(0.1)}>
-            <div class="section-label">Where I've studied</div>
-            <div class="section-title">Education</div>
-            {edu_html}
         </div>
     </section>
     """
