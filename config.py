@@ -7,7 +7,7 @@ need to touch page layout code just to update your info.
 PROFILE = {
     "name": "Samiha Tanjeem",
     "title": "Data Analyst",
-    "tagline": "Cat mom turning numbers into stories, one dataset at a time.",
+    "tagline": "Small talk isn't my thing, but data storytelling is! I run on milk tea and curiosity to get there.",
     "bio": (
         "I'm a Business Analytics graduate from East Texas A&M University "
         "(GPA 3.90). During my internship at PRYPCO, I worked through real "
@@ -146,6 +146,7 @@ EXPERIENCE = [
     {
         "role": "UX Research Analyst (Internship)",
         "organization": "PRYPCO",
+        "logo": "assets/prypco.png",
         "period": "May 2025 – Jul 2025",
         "impact": "13 customer journey maps directly informed product recommendations for the Prypco One app.",
         "bullets": [
@@ -163,6 +164,7 @@ EXPERIENCE = [
     {
         "role": "UX Branding (Internship)",
         "organization": "Praava Health",
+        "logo": "assets/praava.png",
         "period": "Sep 2022 – Dec 2022",
         "impact": "Drove a 27% increase in brand recognition and helped launch the company's first TikTok channel.",
         "bullets": [
@@ -186,6 +188,7 @@ EDUCATION = [
     {
         "degree": "Master of Science in Business Analytics (MSBA)",
         "institution": "East Texas A&M University",
+        "logo": "assets/etamu.jpg",
         "period": "Aug 2026",
         "description": "GPA: 3.90",
         "courses": [
@@ -202,6 +205,7 @@ EDUCATION = [
     {
         "degree": "Bachelor of Business Administration (BBA) in Marketing",
         "institution": "North South University",
+        "logo": "assets/nsu.jpg",
         "period": "Dec 2022",
         "description": "",
     },

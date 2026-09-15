@@ -36,12 +36,19 @@ def file_to_data_uri(path: str) -> str:
     return f"data:image/{mime};base64,{b64}"
 
 
+def org_meta_html(logo_path: str, label: str) -> str:
+    logo_html = ""
+    if logo_path and os.path.exists(logo_path):
+        logo_html = f'<img class="org-logo" src="{file_to_data_uri(logo_path)}" />'
+    return f'<div class="org-meta-row">{logo_html}<div class="org-meta">{label}</div></div>'
+
+
 def reveal(delay: float = 0.0) -> str:
     return f'style="animation-delay:{delay}s"'
 
 
 # ---------- Sticky nav ----------
-nav_links = ["About", "Education", "Experience", "Projects", "Certifications", "Contact"]
+nav_links = ["About", "Education", "Skills", "Experience", "Projects", "Certifications", "Contact"]
 nav_html = "".join(f'<a href="#{n.lower()}">{n}</a>' for n in nav_links)
 render_html(
     f"""
@@ -54,19 +61,24 @@ render_html(
     """
 )
 
-# ---------- Hero / About (cutout photo over big text, Skills panel on the right) ----------
+# ---------- Hero / About ----------
 first_name = PROFILE["name"].split()[0]
 cutout_path = PROFILE.get("profile_cutout_image", "")
 has_cutout = bool(cutout_path) and os.path.exists(cutout_path)
 
 if has_cutout:
+    photo_html = f'<img class="hero-cutout-photo" src="{file_to_data_uri(cutout_path)}" />'
     hero_visual_html = f"""
-        <div class="hero-cutout-wrap">
-            <div class="hero-cutout-text">
-                <div class="hero-greeting">Hey there!</div>
-                <div class="hero-name-big">I'm {first_name}</div>
+        <div class="hero-flank">
+            <div class="hero-flank-col hero-flank-col-left">
+                <div class="hero-flank-word accent type-left">Hey</div>
+                <div class="hero-flank-word type-left" style="animation-delay:0.15s">I'm</div>
             </div>
-            <img class="hero-cutout-photo" src="{file_to_data_uri(cutout_path)}" />
+            {photo_html}
+            <div class="hero-flank-col hero-flank-col-right">
+                <div class="hero-flank-word accent type-right">there!</div>
+                <div class="hero-flank-word type-right" style="animation-delay:0.15s">{first_name}</div>
+            </div>
         </div>
     """
 elif os.path.exists(PROFILE["profile_image"]):
@@ -90,11 +102,6 @@ if os.path.exists(PROFILE["resume_path"]):
     resume_data_uri = file_to_data_uri(PROFILE["resume_path"])
     social_html += icon_button(RESUME, resume_data_uri, "Resume")
 
-skill_groups_html = ""
-for category, items in SKILLS.items():
-    tags_html = "".join(f'<span class="tag">{item}</span>' for item in items)
-    skill_groups_html += f'<div class="skill-group-title">{category}</div><div class="tag-row">{tags_html}</div>'
-
 render_html(
     f"""
     <section id="about" class="section">
@@ -105,19 +112,8 @@ render_html(
                 <div class="hero-tagline">{PROFILE['tagline']}</div>
                 <div class="icon-row">{social_html}</div>
             </div>
-            <div class="about-grid">
-                <div class="about-left">
-                    <p style="font-size:1.05rem; line-height:1.7;">{PROFILE['bio']}</p>
-                    <p class="muted">📍 {PROFILE.get('location', '')}</p>
-                </div>
-                <div class="about-right">
-                    <div class="skills-panel">
-                        <div class="section-label">Tools &amp; areas</div>
-                        <div class="skills-panel-title">Skills</div>
-                        {skill_groups_html if SKILLS else '<p class="muted">No skills added yet.</p>'}
-                    </div>
-                </div>
-            </div>
+            <p style="font-size:1.05rem; line-height:1.7;">{PROFILE['bio']}</p>
+            <p class="muted">📍 {PROFILE.get('location', '')}</p>
         </div>
     </section>
     """
@@ -132,10 +128,11 @@ for edu in EDUCATION:
     if edu.get("courses"):
         tags = "".join(f'<span class="tag">{c}</span>' for c in edu["courses"])
         courses_html = f'<div class="muted" style="margin-top:0.5rem;">Relevant courses</div><div class="tag-row">{tags}</div>'
+    meta_html = org_meta_html(edu.get("logo", ""), f"{edu['institution']} &nbsp;·&nbsp; {edu['period']}")
     edu_html += f"""
         <div class="timeline-item">
             <div class="card-title">{edu['degree']}</div>
-            <div class="card-meta">{edu['institution']} &nbsp;·&nbsp; {edu['period']}</div>
+            {meta_html}
             <div class="card-body">{edu.get('description', '')}</div>
             {courses_html}
         </div>
@@ -155,16 +152,37 @@ render_html(
 
 render_html('<div class="divider"></div>')
 
+# ---------- Skills ----------
+skill_groups_html = ""
+for category, items in SKILLS.items():
+    tags_html = "".join(f'<span class="tag">{item}</span>' for item in items)
+    skill_groups_html += f'<div class="skill-group-title">{category}</div><div class="tag-row">{tags_html}</div>'
+
+render_html(
+    f"""
+    <section id="skills" class="section">
+        <div class="section-inner reveal" {reveal(0.05)}>
+            <div class="section-label">Tools &amp; areas</div>
+            <div class="section-title">Skills</div>
+            {skill_groups_html if SKILLS else '<p class="muted">No skills added yet.</p>'}
+        </div>
+    </section>
+    """
+)
+
+render_html('<div class="divider"></div>')
+
 # ---------- Experience ----------
 exp_html = ""
 for job in EXPERIENCE:
     bullets = job.get("bullets") or [job.get("description", "")]
     bullets_html = "".join(f"<li>{b}</li>" for b in bullets if b)
     impact_html = f'<div class="card-impact"><b>Impact —</b> {job["impact"]}</div>' if job.get("impact") else ""
+    meta_html = org_meta_html(job.get("logo", ""), f"{job['organization']} &nbsp;·&nbsp; {job['period']}")
     exp_html += f"""
         <div class="timeline-item">
             <div class="card-title">{job['role']}</div>
-            <div class="card-meta">{job['organization']} &nbsp;·&nbsp; {job['period']}</div>
+            {meta_html}
             {impact_html}
             <ul style="margin:0; padding-left:1.1rem; font-size:0.92rem; line-height:1.6;">{bullets_html}</ul>
         </div>

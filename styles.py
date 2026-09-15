@@ -129,40 +129,48 @@ CUSTOM_CSS = f"""
         margin-bottom: 1.5rem;
     }}
 
-    /* ---------- Hero cutout (photo overlapping big text) ---------- */
-    .hero-cutout-wrap {{
-        position: relative;
-        min-height: 460px;
+    /* ---------- Hero flank (photo centered, greeting split left/right) ---------- */
+    .hero-flank {{
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         justify-content: center;
-        margin-bottom: 0.5rem;
-        overflow: visible;
+        gap: clamp(0.75rem, 3vw, 2.5rem);
+        margin-bottom: 1.5rem;
     }}
-    .hero-cutout-text {{
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        text-align: center;
-        z-index: 1;
-        pointer-events: none;
+    .hero-flank-col {{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1;
+        min-width: 0;
+        height: 420px;
+        padding: 1rem 0;
     }}
-    .hero-greeting {{
-        font-size: clamp(1.3rem, 3vw, 2rem);
-        font-weight: 600;
-        color: #C2557A;
-        margin-bottom: -0.3rem;
-    }}
-    .hero-name-big {{
-        font-size: clamp(3rem, 10vw, 6.5rem);
+    .hero-flank-col-left {{ align-items: flex-end; text-align: right; }}
+    .hero-flank-col-right {{ align-items: flex-start; text-align: left; }}
+    .hero-flank-word {{
+        font-size: clamp(1.8rem, 5.5vw, 4rem);
         font-weight: 800;
         letter-spacing: -0.03em;
         line-height: 1;
         color: #33262A;
+        white-space: nowrap;
+        overflow: hidden;
+    }}
+    .hero-flank-word.accent {{ color: #C2557A; font-weight: 600; font-size: clamp(1.3rem, 3.5vw, 2rem); }}
+    .type-left {{ animation: typeInLeft 0.7s steps(10, end) both; }}
+    .type-right {{ animation: typeInRight 0.7s steps(10, end) both; }}
+    @keyframes typeInLeft {{
+        from {{ clip-path: inset(0 100% 0 0); }}
+        to {{ clip-path: inset(0 0 0 0); }}
+    }}
+    @keyframes typeInRight {{
+        from {{ clip-path: inset(0 0 0 100%); }}
+        to {{ clip-path: inset(0 0 0 0); }}
     }}
     .hero-cutout-photo {{
-        position: relative;
-        z-index: 2;
-        max-height: 340px;
+        flex-shrink: 0;
+        max-height: 480px;
         width: auto;
         max-width: 100%;
         display: block;
@@ -173,35 +181,41 @@ CUSTOM_CSS = f"""
         margin-bottom: 3rem;
     }}
     .hero-below .hero-title {{ margin-bottom: 0.3rem; }}
-    .hero-below .hero-tagline {{ max-width: none; margin: 0 auto 1.5rem; }}
+    .hero-below .hero-tagline {{ max-width: 36rem; margin: 0 auto 1.5rem; }}
     .hero-below .icon-row {{ justify-content: center; }}
 
-    @media (max-width: 640px) {{
-        .hero-cutout-wrap {{ min-height: 300px; }}
-        .hero-cutout-photo {{ max-height: 300px; }}
+    @media (max-width: 820px) {{
+        .hero-flank {{ flex-direction: column; gap: 0.5rem; }}
+        .hero-flank-col {{
+            flex-direction: row; height: auto; width: 100%;
+            justify-content: center; gap: 0.6rem; padding: 0;
+        }}
+        .hero-flank-col-left, .hero-flank-col-right {{ text-align: center; align-items: center; }}
+        .hero-flank-word {{ font-size: clamp(1.6rem, 8vw, 2.4rem); white-space: normal; }}
+        .hero-flank-word.accent {{ font-size: clamp(1.1rem, 5vw, 1.4rem); }}
+        .hero-cutout-photo {{ max-height: 320px; order: -1; margin-bottom: 0.5rem; }}
     }}
 
-    /* ---------- About section layout (skills panel on the right) ---------- */
-    .about-grid {{
-        display: grid;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 3rem;
-        align-items: start;
+    /* ---------- Org logos (education / experience) ---------- */
+    .org-meta-row {{
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 0.6rem;
+        flex-wrap: wrap;
     }}
-    .skills-panel {{
-        background: #FFFFFF;
-        border: 1px solid rgba(232, 135, 158, 0.22);
-        border-radius: 16px;
-        padding: 1.5rem 1.5rem;
+    .org-logo {{
+        height: 34px !important;
+        width: auto !important;
+        max-width: 120px !important;
+        object-fit: contain !important;
+        border-radius: 6px;
+        flex-shrink: 0;
     }}
-    .skills-panel-title {{
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #33262A;
-        margin-bottom: 1rem;
-    }}
-    @media (max-width: 820px) {{
-        .about-grid {{ grid-template-columns: 1fr; }}
+    .org-meta {{
+        font-size: 1rem;
+        font-weight: 600;
+        color: #4A3B3B;
     }}
 
     /* ---------- Fade/slide-in on load ---------- */
