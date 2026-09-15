@@ -18,7 +18,7 @@ CUSTOM_CSS = f"""
     .block-container {{
         padding-top: 2.2rem;
         padding-bottom: 5rem;
-        padding-right: 5.5rem;
+        padding-right: 9.5rem;
         max-width: 980px;
     }}
 
@@ -47,7 +47,7 @@ CUSTOM_CSS = f"""
     .site-nav {{
         position: fixed;
         top: 0; right: 0; bottom: 0;
-        width: 84px;
+        width: 132px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -64,11 +64,13 @@ CUSTOM_CSS = f"""
         gap: 1.9rem;
     }}
     .site-nav-links a {{
+        display: block;
         color: #4A3B3B;
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         font-weight: 600;
         position: relative;
         text-align: center;
+        padding-top: 1.5rem;
         transition: color 0.2s ease, transform 0.2s ease;
     }}
     .site-nav-links a:hover {{
@@ -77,26 +79,26 @@ CUSTOM_CSS = f"""
     }}
     .site-nav-cat {{
         position: absolute;
-        right: 2.1rem;
-        top: 50%;
-        transform: translateY(-50%) scale(0.3) rotate(-8deg);
-        font-size: 1.6rem;
+        top: 0.1rem;
+        left: 50%;
+        transform: translate(-50%, 0) scale(0.3) rotate(-8deg);
+        font-size: 1.5rem;
         opacity: 0;
         pointer-events: none;
         transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
         filter: drop-shadow(0 4px 6px rgba(51, 38, 42, 0.25));
     }}
     .site-nav-links a:hover .site-nav-cat {{
-        transform: translateY(-50%) scale(1) rotate(0deg);
+        transform: translate(-50%, -0.3rem) scale(1) rotate(0deg);
         opacity: 1;
     }}
 
     @media (max-width: 720px) {{
-        .site-nav {{ width: 60px; }}
+        .site-nav {{ width: 92px; }}
         .site-nav-links {{ gap: 1.3rem; }}
-        .site-nav-links a {{ font-size: 0.72rem; }}
-        .site-nav-cat {{ font-size: 1.2rem; right: 1.5rem; }}
-        .block-container {{ padding-right: 4rem; }}
+        .site-nav-links a {{ font-size: 0.7rem; padding-top: 1.3rem; }}
+        .site-nav-cat {{ font-size: 1.2rem; }}
+        .block-container {{ padding-right: 6rem; }}
         .site-brand {{ font-size: 0.85rem; left: 1rem; }}
     }}
 
@@ -248,6 +250,43 @@ CUSTOM_CSS = f"""
     .reveal.pre-hide {{ opacity: 0; transform: translateY(28px); }}
     .reveal.in-view {{ opacity: 1; transform: translateY(0); }}
 
+    /* ---------- Cat runner (click-to-navigate animation) ---------- */
+    .cat-runner {{
+        position: fixed;
+        right: 28px;
+        font-size: 1.9rem;
+        z-index: 10000;
+        pointer-events: none;
+        filter: drop-shadow(0 6px 8px rgba(51, 38, 42, 0.3));
+        animation-name: catRunDown;
+        animation-duration: 1s;
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+        animation-fill-mode: forwards;
+    }}
+    .cat-runner.run-up {{ animation-name: catRunUp; }}
+    @keyframes catRunDown {{
+        0%   {{ transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }}
+        10%  {{ transform: translateY(-16px) scale(1.15, 0.9) rotate(-10deg); }}
+        22%  {{ transform: translateY(60px) scale(0.9, 1.1) rotate(6deg); }}
+        34%  {{ transform: translateY(46px) scale(1.1, 0.9) rotate(-8deg); }}
+        46%  {{ transform: translateY(150px) scale(0.9, 1.1) rotate(6deg); }}
+        58%  {{ transform: translateY(136px) scale(1.1, 0.9) rotate(-8deg); }}
+        70%  {{ transform: translateY(230px) scale(0.9, 1.1) rotate(6deg); }}
+        85%  {{ transform: translateY(280px) scale(1, 1) rotate(0deg); opacity: 1; }}
+        100% {{ transform: translateY(320px) scale(0.6) rotate(0deg); opacity: 0; }}
+    }}
+    @keyframes catRunUp {{
+        0%   {{ transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }}
+        10%  {{ transform: translateY(16px) scale(1.15, 0.9) rotate(10deg); }}
+        22%  {{ transform: translateY(-60px) scale(0.9, 1.1) rotate(-6deg); }}
+        34%  {{ transform: translateY(-46px) scale(1.1, 0.9) rotate(8deg); }}
+        46%  {{ transform: translateY(-150px) scale(0.9, 1.1) rotate(-6deg); }}
+        58%  {{ transform: translateY(-136px) scale(1.1, 0.9) rotate(8deg); }}
+        70%  {{ transform: translateY(-230px) scale(0.9, 1.1) rotate(-6deg); }}
+        85%  {{ transform: translateY(-280px) scale(1, 1) rotate(0deg); opacity: 1; }}
+        100% {{ transform: translateY(-320px) scale(0.6) rotate(0deg); opacity: 0; }}
+    }}
+
     /* ---------- Icon buttons (hero social links) ---------- */
     .icon-row {{ display: flex; gap: 0.75rem; flex-wrap: wrap; }}
     .icon-btn {{
@@ -288,9 +327,10 @@ CUSTOM_CSS = f"""
     }}
     .card-image {{
         width: 100%;
+        max-width: 440px;
         border-radius: 10px;
         overflow: hidden;
-        margin-bottom: 1rem;
+        margin: 0 auto 1.1rem;
         aspect-ratio: 1200 / 630;
         background: #FBE7EC;
     }}

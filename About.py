@@ -47,11 +47,11 @@ def org_meta_html(logo_path: str, label: str) -> str:
 # ---------- Brand + thin vertical nav rail ----------
 nav_items = [
     ("About", "about"),
-    ("Edu", "education"),
+    ("Education", "education"),
     ("Skills", "skills"),
-    ("Exp", "experience"),
-    ("Proj", "projects"),
-    ("Cert", "certifications"),
+    ("Experience", "experience"),
+    ("Projects", "projects"),
+    ("Certificate", "certifications"),
     ("Contact", "contact"),
 ]
 nav_html = "".join(
@@ -354,6 +354,34 @@ components.html(
             toObserve.forEach(function (el) { obs.observe(el); });
         }
         init();
+
+        function initCatRunner() {
+            var doc = window.parent.document;
+            var links = doc.querySelectorAll('.site-nav-links a');
+            if (!links.length) { setTimeout(initCatRunner, 150); return; }
+            if (window.__catRunnerInit) return;
+            window.__catRunnerInit = true;
+
+            links.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    var targetId = (link.getAttribute('href') || '').slice(1);
+                    var targetEl = doc.getElementById(targetId);
+                    var linkRect = link.getBoundingClientRect();
+                    var goingDown = true;
+                    if (targetEl) {
+                        var targetRect = targetEl.getBoundingClientRect();
+                        goingDown = targetRect.top >= linkRect.top;
+                    }
+                    var cat = doc.createElement('div');
+                    cat.textContent = '🐱';
+                    cat.className = 'cat-runner' + (goingDown ? '' : ' run-up');
+                    cat.style.top = linkRect.top + 'px';
+                    doc.body.appendChild(cat);
+                    setTimeout(function () { cat.remove(); }, 1050);
+                });
+            });
+        }
+        initCatRunner();
     })();
     </script>
     """,

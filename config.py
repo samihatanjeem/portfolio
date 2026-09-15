@@ -46,7 +46,7 @@ PROJECTS = [
             "ratios and full multicollinearity, heteroskedasticity, and "
             "autocorrelation diagnostics."
         ),
-        "image": "https://github.com/user-attachments/assets/f0aec6bf-fc47-4938-bef7-11f9a4086d9f",
+        "image": "https://github.com/user-attachments/assets/d1a35682-e939-4262-ae06-9ef85e9afb87",
         "bullets": [
             "Cleaned SEC XBRL filings from 12,129 companies down to a validated "
             "panel of 279 firm-year observations across 182 firms, engineering "
@@ -71,7 +71,7 @@ PROJECTS = [
             "U.S. fast-food market data to predict total sales and find key "
             "relationships among store count, unit sales, and revenue."
         ),
-        "image": "https://github.com/user-attachments/assets/d56ef485-6860-43b3-bdf0-a897a845a48e",
+        "image": "https://github.com/user-attachments/assets/bd953db6-cb6b-4a80-86ce-7adf7ff65576",
         "bullets": [
             "Analyzed systemwide sales across the top 50 U.S. fast-food chains, "
             "finding store count and systemwide sales correlated at r ≈ 0.71.",
@@ -236,7 +236,7 @@ EDUCATION = [
         "institution": "North South University",
         "logo": "assets/nsu.jpg",
         "period": "Dec 2022",
-        "email": "stanjeem@northsouth.edu",
+        "email": "samiha.tanjeem@northsouth.edu",
         "description": "",
         "courses": [
             "Computer Information Systems",
