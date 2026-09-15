@@ -2,6 +2,7 @@ import base64
 import os
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from config import CERTIFICATIONS, EDUCATION, EXPERIENCE, PROFILE, PROJECTS, SKILLS, SOCIAL_LINKS
 from icons import EXTERNAL_LINK, GITHUB, LINKEDIN, MAIL, RESUME, icon_button, icon_pill
@@ -41,10 +42,6 @@ def org_meta_html(logo_path: str, label: str) -> str:
     if logo_path and os.path.exists(logo_path):
         logo_html = f'<div class="org-logo-wrap"><img class="org-logo" src="{file_to_data_uri(logo_path)}" /></div>'
     return f'<div class="org-meta-row">{logo_html}<div class="org-meta">{label}</div></div>'
-
-
-def reveal(delay: float = 0.0) -> str:
-    return f'style="animation-delay:{delay}s"'
 
 
 # ---------- Sticky nav ----------
@@ -105,7 +102,7 @@ if os.path.exists(PROFILE["resume_path"]):
 render_html(
     f"""
     <section id="about" class="section">
-        <div class="section-inner reveal" {reveal(0.0)}>
+        <div class="section-inner reveal">
             {hero_visual_html}
             <div class="hero-below">
                 <div class="hero-title">{PROFILE['title']}</div>
@@ -144,7 +141,7 @@ for edu in EDUCATION:
 render_html(
     f"""
     <section id="education" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
+        <div class="section-inner reveal">
             <div class="section-label">Where I've studied</div>
             <div class="section-title">Education</div>
             {edu_html}
@@ -164,7 +161,7 @@ for category, items in SKILLS.items():
 render_html(
     f"""
     <section id="skills" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
+        <div class="section-inner reveal">
             <div class="section-label">Tools &amp; areas</div>
             <div class="section-title">Skills</div>
             {skill_groups_html if SKILLS else '<p class="muted">No skills added yet.</p>'}
@@ -194,7 +191,7 @@ for job in EXPERIENCE:
 render_html(
     f"""
     <section id="experience" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
+        <div class="section-inner reveal">
             <div class="section-label">Where I've worked</div>
             <div class="section-title">Experience</div>
             {exp_html}
@@ -215,14 +212,20 @@ for p in PROJECTS:
     if p.get("repo_url"):
         links_html += icon_pill(GITHUB, p["repo_url"], "Source Code")
     image_html = f'<div class="card-image"><img src="{p["image"]}" /></div>' if p.get("image") else ""
-    impact_html = f'<div class="card-impact"><b>Impact —</b> {p["impact"]}</div>' if p.get("impact") else ""
+    bullets = p.get("bullets") or []
+    bullets_html = "".join(f"<li>{b}</li>" for b in bullets)
+    highlights_html = (
+        f'<div class="muted" style="margin-bottom:0.3rem;">Highlights</div>'
+        f'<ul style="margin:0 0 0.75rem; padding-left:1.1rem; font-size:0.92rem; line-height:1.6;">{bullets_html}</ul>'
+        if bullets else ""
+    )
     project_cards += f"""
         <div class="card">
             {image_html}
             <div class="card-title">{p['title']}</div>
             <div class="card-meta">{p.get('date', '')}</div>
             <div class="card-body">{p['description']}</div>
-            {impact_html}
+            {highlights_html}
             <div class="tag-row">{tags_html}</div>
             <div class="pill-row">{links_html}</div>
         </div>
@@ -231,7 +234,7 @@ for p in PROJECTS:
 render_html(
     f"""
     <section id="projects" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
+        <div class="section-inner reveal">
             <div class="section-label">What I've built</div>
             <div class="section-title">Projects</div>
             {project_cards if PROJECTS else '<p class="muted">No projects added yet.</p>'}
@@ -262,7 +265,7 @@ for c in CERTIFICATIONS:
 render_html(
     f"""
     <section id="certifications" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
+        <div class="section-inner reveal">
             <div class="section-label">Always learning</div>
             <div class="section-title">Certifications</div>
             {cert_cards if CERTIFICATIONS else '<p class="muted">No certifications added yet.</p>'}
@@ -285,7 +288,7 @@ emails_html = " &nbsp;·&nbsp; ".join(f'<a href="mailto:{e}">{e}</a>' for e in c
 render_html(
     f"""
     <section id="contact" class="section">
-        <div class="section-inner reveal" {reveal(0.05)}>
+        <div class="section-inner reveal">
             <div class="section-label">Let's talk</div>
             <div class="section-title">Contact</div>
             <p style="max-width:32rem;">Have a project in mind or just want to say hi? Reach out any of these ways.</p>
@@ -298,4 +301,53 @@ render_html(
     </section>
     <div class="site-footer">© {PROFILE['name']}</div>
     """
+)
+
+# ---------- Scroll-triggered section reveal ----------
+# Streamlit has no native scroll events, so this small script reaches into the
+# real page (via window.parent, since components.html renders in its own
+# iframe) and toggles CSS classes on each .reveal section as it enters the
+# viewport. Falls back safely: sections are visible by default, and only get
+# hidden-then-revealed once this script confirms it can find them, so a
+# blocked/failed script never leaves content invisible.
+components.html(
+    """
+    <script>
+    (function () {
+        function init() {
+            var doc = window.parent.document;
+            var els = doc.querySelectorAll('.reveal');
+            if (!els.length) { setTimeout(init, 150); return; }
+            if (window.__revealInit) return;
+            window.__revealInit = true;
+
+            var vh = window.parent.innerHeight || 800;
+            var toObserve = [];
+            els.forEach(function (el) {
+                var rect = el.getBoundingClientRect();
+                if (rect.top < vh * 0.92) {
+                    el.classList.add('in-view');
+                } else {
+                    el.classList.add('pre-hide');
+                    toObserve.push(el);
+                }
+            });
+
+            if (!toObserve.length || !window.parent.IntersectionObserver) return;
+            var obs = new window.parent.IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('pre-hide');
+                        entry.target.classList.add('in-view');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+            toObserve.forEach(function (el) { obs.observe(el); });
+        }
+        init();
+    })();
+    </script>
+    """,
+    height=0,
 )

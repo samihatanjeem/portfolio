@@ -46,11 +46,19 @@ PROJECTS = [
             "ratios and full multicollinearity, heteroskedasticity, and "
             "autocorrelation diagnostics."
         ),
-        "impact": (
-            "Identified the strongest financial predictors of next-period ROA "
-            "across 12,129 U.S. firms, with the model validated against "
-            "multicollinearity, heteroskedasticity, and autocorrelation checks."
-        ),
+        "image": "https://github.com/user-attachments/assets/f0aec6bf-fc47-4938-bef7-11f9a4086d9f",
+        "bullets": [
+            "Cleaned SEC XBRL filings from 12,129 companies down to a validated "
+            "panel of 279 firm-year observations across 182 firms, engineering "
+            "7 financial ratios (ROA, ROE, debt ratio, asset turnover, and more).",
+            "Built OLS regression models reaching R² = 0.673, finding current-year "
+            "ROA the strongest predictor of next-year performance (β = 1.261) and "
+            "debt ratio a consistent drag on it (β = −0.619) across firm sizes.",
+            "Ran full diagnostics (multicollinearity, heteroskedasticity, "
+            "autocorrelation) and found the simpler single-variable baseline "
+            "actually beat the full 7-predictor model on holdout data — a real "
+            "lesson in not over-fitting with limited observations.",
+        ],
         "tags": ["R", "dplyr", "tidyr", "ggplot2", "sandwich", "lmtest", "corrplot"],
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/U.S-Stocks-Predictive-Analysis",
@@ -63,10 +71,16 @@ PROJECTS = [
             "U.S. fast-food market data to predict total sales and find key "
             "relationships among store count, unit sales, and revenue."
         ),
-        "impact": (
-            "Pinpointed which factors, store count vs. unit sales, most strongly "
-            "predict total revenue across major fast-food chains."
-        ),
+        "image": "https://github.com/user-attachments/assets/d56ef485-6860-43b3-bdf0-a897a845a48e",
+        "bullets": [
+            "Analyzed systemwide sales across the top 50 U.S. fast-food chains, "
+            "finding store count and systemwide sales correlated at r ≈ 0.71.",
+            "Built a multivariate regression (store count + avg. unit sales → "
+            "total sales) reaching R² = 0.64, using backward elimination to "
+            "select features and correlation heatmaps to guide the analysis.",
+            "Flagged Chick-fil-A as a standout outlier — high systemwide revenue "
+            "despite running far fewer locations than its closest competitors.",
+        ],
         "tags": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/Fast-Food_served_with_Regression",
@@ -79,11 +93,17 @@ PROJECTS = [
             "cleaning, visualization, exploratory analysis, and predictive "
             "modeling with linear regression and feature engineering."
         ),
-        "impact": (
-            "A reusable workspace that takes any dataset from raw cleaning "
-            "through EDA to a trained regression model without rewriting the "
-            "pipeline each time."
-        ),
+        "image": "https://github.com/user-attachments/assets/ee080062-b646-42eb-9e55-193cd7892347",
+        "bullets": [
+            "Built a 15-notebook Python workspace spanning the full workflow: "
+            "data cleaning, EDA, visualization, and regression modeling.",
+            "Ran a salary-prediction exercise testing technical, communication, "
+            "and leadership scores as predictors — a hands-on lesson in reading "
+            "regression output honestly when a feature doesn't explain the "
+            "outcome, rather than forcing a fit.",
+            "Built a second mini-project covering outlier detection and a full "
+            "data-cleaning pipeline end to end.",
+        ],
         "tags": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/Python-ML-Analytics-Workspace",
@@ -97,10 +117,18 @@ PROJECTS = [
             "predictors of car fuel efficiency and Titanic passenger survival "
             "across genders and classes."
         ),
-        "impact": (
-            "Showed how the same regression diagnostic workflow applies to both "
-            "a continuous outcome (fuel efficiency) and a binary one (survival)."
-        ),
+        "image": "https://github.com/user-attachments/assets/bf676880-17db-4fa3-9822-99eeea0e9eef",
+        "bullets": [
+            "Modeled car fuel efficiency in R, finding vehicle weight the "
+            "dominant factor (−4.36 mpg per unit, p < 0.001) while horsepower "
+            "and quarter-mile time weren't statistically significant — the "
+            "model explained 83% of variance (Adj. R² = 0.8171).",
+            "Built a logistic regression on Titanic survival: sex was the "
+            "strongest predictor (women had ~11x higher odds of survival), with "
+            "class and age also shaping outcomes.",
+            "Evaluated the classifier with a confusion matrix and ROC curve, "
+            "reaching ~77% accuracy with good discrimination.",
+        ],
         "tags": ["R", "ggplot2", "caret", "lm", "glm", "pROC"],
         "demo_url": "",
         "repo_url": "https://github.com/samihatanjeem/MTCars-Titanic-R-Linear-Regression",

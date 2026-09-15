@@ -144,7 +144,7 @@ CUSTOM_CSS = f"""
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0;
         flex: 0 1 auto;
         min-width: 0;
         padding: 1rem 0;
@@ -155,21 +155,20 @@ CUSTOM_CSS = f"""
         font-size: clamp(2.4rem, 8vw, 6rem);
         font-weight: 800;
         letter-spacing: -0.03em;
-        line-height: 1;
+        line-height: 1.05;
         color: #33262A;
         white-space: nowrap;
-        overflow: hidden;
     }}
     .hero-flank-word.accent {{ color: #C2557A; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.8rem); }}
-    .type-left {{ animation: typeInLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }}
-    .type-right {{ animation: typeInRight 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }}
+    .type-left {{ animation: typeInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; will-change: transform, opacity; }}
+    .type-right {{ animation: typeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; will-change: transform, opacity; }}
     @keyframes typeInLeft {{
-        from {{ clip-path: inset(0 100% 0 0); }}
-        to {{ clip-path: inset(0 0 0 0); }}
+        from {{ opacity: 0; transform: translateX(-36px); }}
+        to {{ opacity: 1; transform: translateX(0); }}
     }}
     @keyframes typeInRight {{
-        from {{ clip-path: inset(0 0 0 100%); }}
-        to {{ clip-path: inset(0 0 0 0); }}
+        from {{ opacity: 0; transform: translateX(36px); }}
+        to {{ opacity: 1; transform: translateX(0); }}
     }}
     .hero-cutout-photo {{
         flex-shrink: 0;
@@ -232,14 +231,13 @@ CUSTOM_CSS = f"""
         color: #4A3B3B;
     }}
 
-    /* ---------- Fade/slide-in on load ---------- */
-    @keyframes fadeSlideUp {{
-        from {{ opacity: 0; transform: translateY(16px); }}
-        to {{ opacity: 1; transform: translateY(0); }}
-    }}
+    /* ---------- Scroll-triggered reveal (JS toggles .pre-hide/.in-view) ---------- */
     .reveal {{
-        animation: fadeSlideUp 0.7s ease both;
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }}
+    .reveal.pre-hide {{ opacity: 0; transform: translateY(28px); }}
+    .reveal.in-view {{ opacity: 1; transform: translateY(0); }}
 
     /* ---------- Icon buttons (hero social links) ---------- */
     .icon-row {{ display: flex; gap: 0.75rem; flex-wrap: wrap; }}
