@@ -208,5 +208,17 @@ EDUCATION = [
         "logo": "assets/nsu.jpg",
         "period": "Dec 2022",
         "description": "",
+        "courses": [
+            "Computer Information Systems",
+            "Applied Business Mathematics",
+            "Applied Statistics",
+            "Marketing Analytics",
+            "Marketing Research",
+            "E-Business",
+            "Digital Marketing & Social Networks for Business",
+            "Operations and Supply Chain Management",
+            "Financial Accounting",
+            "Managerial Accounting",
+        ],
     },
 ]

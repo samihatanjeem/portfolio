@@ -134,16 +134,16 @@ CUSTOM_CSS = f"""
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: clamp(0.25rem, 0.8vw, 0.6rem);
+        gap: 0;
         margin-bottom: 1.5rem;
     }}
     .hero-flank-col {{
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 0.5rem;
         flex: 0 1 auto;
         min-width: 0;
-        height: 420px;
         padding: 1rem 0;
     }}
     .hero-flank-col-left {{ align-items: flex-end; text-align: right; }}
@@ -158,8 +158,8 @@ CUSTOM_CSS = f"""
         overflow: hidden;
     }}
     .hero-flank-word.accent {{ color: #C2557A; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.8rem); }}
-    .type-left {{ animation: typeInLeft 0.7s steps(10, end) both; }}
-    .type-right {{ animation: typeInRight 0.7s steps(10, end) both; }}
+    .type-left {{ animation: typeInLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }}
+    .type-right {{ animation: typeInRight 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }}
     @keyframes typeInLeft {{
         from {{ clip-path: inset(0 100% 0 0); }}
         to {{ clip-path: inset(0 0 0 0); }}
