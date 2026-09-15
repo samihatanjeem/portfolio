@@ -11,12 +11,15 @@ CUSTOM_CSS = f"""
     /* Hide default Streamlit chrome so the page reads as a site, not an app */
     #MainMenu {{ visibility: hidden; }}
     footer {{ visibility: hidden; }}
-    header[data-testid="stHeader"] {{ background: transparent; }}
+    header[data-testid="stHeader"] {{ background: transparent; pointer-events: none !important; }}
+    [data-testid="stToolbar"] {{ pointer-events: none !important; }}
+    [data-testid="stAppDeployButton"], [data-testid="stAppDeployButton"] * ,
+    [data-testid="stMainMenu"], [data-testid="stMainMenu"] * {{ pointer-events: auto !important; }}
 
     .stApp {{ background: #FFFDF9; }}
 
     .block-container {{
-        padding-top: {NAV_HEIGHT + 24}px;
+        padding-top: {NAV_HEIGHT - 24}px;
         padding-bottom: 5rem;
         max-width: 980px;
     }}
@@ -211,6 +214,9 @@ CUSTOM_CSS = f"""
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+    }}
+    .edu-indent {{
+        margin-left: calc(56px + 0.65rem);
     }}
     .org-logo {{
         height: 34px !important;

@@ -129,11 +129,14 @@ for edu in EDUCATION:
         tags = "".join(f'<span class="tag">{c}</span>' for c in edu["courses"])
         courses_html = f'<div class="muted" style="margin-top:0.5rem;">Relevant courses</div><div class="tag-row">{tags}</div>'
     meta_html = org_meta_html(edu.get("logo", ""), f"{edu['institution']} &nbsp;·&nbsp; {edu['period']}")
+    desc_html = f'<div class="card-body edu-indent">{edu["description"]}</div>' if edu.get("description") else ""
+    email_html = f'<div class="muted edu-indent">✉️ <a href="mailto:{edu["email"]}">{edu["email"]}</a></div>' if edu.get("email") else ""
     edu_html += f"""
         <div class="timeline-item">
             <div class="card-title">{edu['degree']}</div>
             {meta_html}
-            <div class="card-body">{edu.get('description', '')}</div>
+            {desc_html}
+            {email_html}
             {courses_html}
         </div>
     """
@@ -275,6 +278,9 @@ contact_icons = {"GitHub": GITHUB, "LinkedIn": LINKEDIN, "Email": MAIL}
 contact_html = "".join(
     icon_button(contact_icons.get(label, MAIL), url, label) for label, url in SOCIAL_LINKS.items()
 )
+etamu_email = next((e["email"] for e in EDUCATION if e.get("email", "").endswith("tamuc.edu")), "")
+contact_emails = [PROFILE["email"]] + ([etamu_email] if etamu_email else [])
+emails_html = " &nbsp;·&nbsp; ".join(f'<a href="mailto:{e}">{e}</a>' for e in contact_emails)
 
 render_html(
     f"""
@@ -284,7 +290,8 @@ render_html(
             <div class="section-title">Contact</div>
             <p style="max-width:32rem;">Have a project in mind or just want to say hi? Reach out any of these ways.</p>
             <div class="icon-row">{contact_html}</div>
-            <p class="muted" style="margin-top:1.5rem;">
+            <p class="muted" style="margin-top:1.5rem;">✉️ {emails_html}</p>
+            <p class="muted">
                 📞 {PROFILE.get('phone', '')} &nbsp;&nbsp; 📍 {PROFILE.get('location', '')}
             </p>
         </div>

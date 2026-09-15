@@ -190,6 +190,7 @@ EDUCATION = [
         "institution": "East Texas A&M University",
         "logo": "assets/etamu.jpg",
         "period": "Aug 2026",
+        "email": "stanjeem@lemail.tamuc.edu",
         "description": "GPA: 3.90",
         "courses": [
             "Database Management",
@@ -207,6 +208,7 @@ EDUCATION = [
         "institution": "North South University",
         "logo": "assets/nsu.jpg",
         "period": "Dec 2022",
+        "email": "stanjeem@northsouth.edu",
         "description": "",
         "courses": [
             "Computer Information Systems",
