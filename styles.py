@@ -134,14 +134,14 @@ CUSTOM_CSS = f"""
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: clamp(0.75rem, 3vw, 2.5rem);
+        gap: clamp(0.25rem, 0.8vw, 0.6rem);
         margin-bottom: 1.5rem;
     }}
     .hero-flank-col {{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        flex: 1;
+        flex: 0 1 auto;
         min-width: 0;
         height: 420px;
         padding: 1rem 0;
@@ -149,7 +149,7 @@ CUSTOM_CSS = f"""
     .hero-flank-col-left {{ align-items: flex-end; text-align: right; }}
     .hero-flank-col-right {{ align-items: flex-start; text-align: left; }}
     .hero-flank-word {{
-        font-size: clamp(1.8rem, 5.5vw, 4rem);
+        font-size: clamp(2.4rem, 8vw, 6rem);
         font-weight: 800;
         letter-spacing: -0.03em;
         line-height: 1;
@@ -157,7 +157,7 @@ CUSTOM_CSS = f"""
         white-space: nowrap;
         overflow: hidden;
     }}
-    .hero-flank-word.accent {{ color: #C2557A; font-weight: 600; font-size: clamp(1.3rem, 3.5vw, 2rem); }}
+    .hero-flank-word.accent {{ color: #C2557A; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.8rem); }}
     .type-left {{ animation: typeInLeft 0.7s steps(10, end) both; }}
     .type-right {{ animation: typeInRight 0.7s steps(10, end) both; }}
     @keyframes typeInLeft {{
@@ -204,10 +204,18 @@ CUSTOM_CSS = f"""
         margin-bottom: 0.6rem;
         flex-wrap: wrap;
     }}
+    .org-logo-wrap {{
+        width: 56px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }}
     .org-logo {{
         height: 34px !important;
         width: auto !important;
-        max-width: 120px !important;
+        max-width: 56px !important;
         object-fit: contain !important;
         border-radius: 6px;
         flex-shrink: 0;

@@ -39,7 +39,7 @@ def file_to_data_uri(path: str) -> str:
 def org_meta_html(logo_path: str, label: str) -> str:
     logo_html = ""
     if logo_path and os.path.exists(logo_path):
-        logo_html = f'<img class="org-logo" src="{file_to_data_uri(logo_path)}" />'
+        logo_html = f'<div class="org-logo-wrap"><img class="org-logo" src="{file_to_data_uri(logo_path)}" /></div>'
     return f'<div class="org-meta-row">{logo_html}<div class="org-meta">{label}</div></div>'
 
 

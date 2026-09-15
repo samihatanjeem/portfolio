@@ -7,7 +7,7 @@ need to touch page layout code just to update your info.
 PROFILE = {
     "name": "Samiha Tanjeem",
     "title": "Data Analyst",
-    "tagline": "Small talk isn't my thing, but data storytelling is! I run on milk tea and curiosity to get there.",
+    "tagline": "Small talk isn't my thing, but data storytelling is!<br>I run on milk tea and curiosity to get there.",
     "bio": (
         "I'm a Business Analytics graduate from East Texas A&M University "
         "(GPA 3.90). During my internship at PRYPCO, I worked through real "
@@ -164,7 +164,7 @@ EXPERIENCE = [
     {
         "role": "UX Branding (Internship)",
         "organization": "Praava Health",
-        "logo": "assets/praava.png",
+        "logo": "assets/praava.jpg",
         "period": "Sep 2022 – Dec 2022",
         "impact": "Drove a 27% increase in brand recognition and helped launch the company's first TikTok channel.",
         "bullets": [
