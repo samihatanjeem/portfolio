@@ -137,7 +137,7 @@ for edu in EDUCATION:
     desc_html = f'<div class="card-body edu-indent">{edu["description"]}</div>' if edu.get("description") else ""
     email_html = f'<div class="muted edu-indent">✉️ <a href="mailto:{edu["email"]}">{edu["email"]}</a></div>' if edu.get("email") else ""
     edu_html += f"""
-        <div class="timeline-item">
+        <div class="timeline-item reveal-item">
             <div class="card-title">{edu['degree']}</div>
             {meta_html}
             {desc_html}
@@ -188,7 +188,7 @@ for job in EXPERIENCE:
     impact_html = f'<div class="card-impact"><b>Impact —</b> {job["impact"]}</div>' if job.get("impact") else ""
     meta_html = org_meta_html(job.get("logo", ""), f"{job['organization']} &nbsp;·&nbsp; {job['period']}")
     exp_html += f"""
-        <div class="timeline-item">
+        <div class="timeline-item reveal-item">
             <div class="card-title">{job['role']}</div>
             {meta_html}
             {impact_html}
@@ -228,7 +228,7 @@ for p in PROJECTS:
         if bullets else ""
     )
     project_cards += f"""
-        <div class="card">
+        <div class="card reveal-item">
             {image_html}
             <div class="card-title">{p['title']}</div>
             <div class="card-meta">{p.get('date', '')}</div>
@@ -264,7 +264,7 @@ for c in CERTIFICATIONS:
         elif os.path.exists(image):
             img_html = f'<div class="card-image"><img src="{file_to_data_uri(image)}" /></div>'
     cert_cards += f"""
-        <div class="card">
+        <div class="card reveal-item">
             {img_html}
             <div class="card-title">{c['title']}</div>
         </div>
@@ -324,7 +324,7 @@ components.html(
     (function () {
         function init() {
             var doc = window.parent.document;
-            var els = doc.querySelectorAll('.reveal');
+            var els = doc.querySelectorAll('.reveal, .reveal-item');
             if (!els.length) { setTimeout(init, 150); return; }
             if (window.__revealInit) return;
             window.__revealInit = true;
@@ -342,16 +342,29 @@ components.html(
             });
 
             if (!toObserve.length || !window.parent.IntersectionObserver) return;
-            var obs = new window.parent.IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.remove('pre-hide');
-                        entry.target.classList.add('in-view');
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-            toObserve.forEach(function (el) { obs.observe(el); });
+            // Two observers: sections ease in as soon as their top edge
+            // approaches, individual cards wait until they're properly on
+            // screen so long sections keep revealing as you scroll through.
+            function makeObserver(margin) {
+                return new window.parent.IntersectionObserver(function (entries, self) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.remove('pre-hide');
+                            entry.target.classList.add('in-view');
+                            self.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.05, rootMargin: margin });
+            }
+            var sectionObs = makeObserver('0px 0px -6% 0px');
+            var itemObs = makeObserver('0px 0px -12% 0px');
+            toObserve.forEach(function (el) {
+                if (el.classList.contains('reveal-item')) {
+                    itemObs.observe(el);
+                } else {
+                    sectionObs.observe(el);
+                }
+            });
         }
         init();
 

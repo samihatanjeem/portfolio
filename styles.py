@@ -4,7 +4,11 @@ import streamlit as st
 
 CUSTOM_CSS = f"""
 <style>
-    html {{ scroll-behavior: smooth; }}
+    /* Streamlit scrolls an inner container, not the document - so smooth
+       scrolling has to be set there or anchor jumps teleport instantly. */
+    html, body {{ scroll-behavior: smooth; }}
+    [data-testid="stMain"],
+    [data-testid="stAppViewContainer"] {{ scroll-behavior: smooth !important; }}
 
     /* Hide default Streamlit chrome entirely so the page reads as a site, not an app.
        Our own nav no longer lives in the top strip (it's a right-side rail now),
@@ -250,12 +254,24 @@ CUSTOM_CSS = f"""
     }}
 
     /* ---------- Scroll-triggered reveal (JS toggles .pre-hide/.in-view) ---------- */
+    /* Section-level: the heading block glides up as the section arrives. */
     .reveal {{
-        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     }}
-    .reveal.pre-hide {{ opacity: 0; transform: translateY(28px); }}
+    .reveal.pre-hide {{ opacity: 0; transform: translateY(34px); }}
     .reveal.in-view {{ opacity: 1; transform: translateY(0); }}
+
+    /* Item-level: individual cards / timeline entries rise in as they each
+       reach the viewport, so long sections stay alive the whole way down
+       instead of everything appearing at once at the section boundary. */
+    .reveal-item {{
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+    }}
+    .reveal-item.pre-hide {{ opacity: 0; transform: translateY(26px) scale(0.985); }}
+    .reveal-item.in-view {{ opacity: 1; transform: translateY(0) scale(1); }}
 
     /* ---------- Cat runner (click-to-navigate animation) ---------- */
     .cat-runner {{
