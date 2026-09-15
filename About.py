@@ -44,16 +44,24 @@ def org_meta_html(logo_path: str, label: str) -> str:
     return f'<div class="org-meta-row">{logo_html}<div class="org-meta">{label}</div></div>'
 
 
-# ---------- Sticky nav ----------
-nav_links = ["About", "Education", "Skills", "Experience", "Projects", "Certifications", "Contact"]
-nav_html = "".join(f'<a href="#{n.lower()}">{n}</a>' for n in nav_links)
+# ---------- Brand + thin vertical nav rail ----------
+nav_items = [
+    ("About", "about"),
+    ("Edu", "education"),
+    ("Skills", "skills"),
+    ("Exp", "experience"),
+    ("Proj", "projects"),
+    ("Cert", "certifications"),
+    ("Contact", "contact"),
+]
+nav_html = "".join(
+    f'<a href="#{anchor}">{label}<span class="site-nav-cat">🐱</span></a>' for label, anchor in nav_items
+)
+render_html(f'<div class="site-brand">{PROFILE["name"]}</div>')
 render_html(
     f"""
     <div class="site-nav">
-        <div class="site-nav-inner">
-            <div class="site-nav-brand">{PROFILE['name']}</div>
-            <div class="site-nav-links">{nav_html}</div>
-        </div>
+        <div class="site-nav-links">{nav_html}</div>
     </div>
     """
 )

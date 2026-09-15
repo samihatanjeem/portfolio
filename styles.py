@@ -2,25 +2,23 @@
 
 import streamlit as st
 
-NAV_HEIGHT = 64
-
 CUSTOM_CSS = f"""
 <style>
     html {{ scroll-behavior: smooth; }}
 
-    /* Hide default Streamlit chrome so the page reads as a site, not an app */
-    #MainMenu {{ visibility: hidden; }}
-    footer {{ visibility: hidden; }}
-    header[data-testid="stHeader"] {{ background: transparent; pointer-events: none !important; }}
-    [data-testid="stToolbar"] {{ pointer-events: none !important; }}
-    [data-testid="stAppDeployButton"], [data-testid="stAppDeployButton"] * ,
-    [data-testid="stMainMenu"], [data-testid="stMainMenu"] * {{ pointer-events: auto !important; }}
+    /* Hide default Streamlit chrome entirely so the page reads as a site, not an app.
+       Our own nav no longer lives in the top strip (it's a right-side rail now),
+       so there's no more reason to keep any part of this toolbar interactive. */
+    #MainMenu {{ display: none !important; }}
+    footer {{ display: none !important; }}
+    header[data-testid="stHeader"] {{ display: none !important; }}
 
     .stApp {{ background: #FFFDF9; }}
 
     .block-container {{
-        padding-top: {NAV_HEIGHT - 24}px;
+        padding-top: 2.2rem;
         padding-bottom: 5rem;
+        padding-right: 5.5rem;
         max-width: 980px;
     }}
 
@@ -34,67 +32,78 @@ CUSTOM_CSS = f"""
 
     a {{ color: #C2557A; text-decoration: none; }}
 
-    /* ---------- Sticky top nav ---------- */
+    /* ---------- Brand mark (top-left) ---------- */
+    .site-brand {{
+        position: fixed;
+        top: 1.3rem; left: 1.5rem;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #33262A;
+        letter-spacing: -0.01em;
+        z-index: 9999;
+    }}
+
+    /* ---------- Thin vertical nav rail (right side) ---------- */
     .site-nav {{
         position: fixed;
-        top: 0; left: 0; right: 0;
-        height: {NAV_HEIGHT}px;
+        top: 0; right: 0; bottom: 0;
+        width: 84px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: rgba(255, 253, 249, 0.85);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(232, 135, 158, 0.18);
+        border-left: 1px solid rgba(232, 135, 158, 0.2);
         z-index: 9999;
-    }}
-    .site-nav-inner {{
-        width: 100%;
-        max-width: 980px;
-        padding: 0 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }}
-    .site-nav-brand {{
-        font-weight: 700;
-        font-size: 1rem;
-        color: #33262A;
-        letter-spacing: -0.01em;
     }}
     .site-nav-links {{
         display: flex;
-        gap: 1.75rem;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.9rem;
     }}
     .site-nav-links a {{
         color: #4A3B3B;
-        font-size: 0.9rem;
-        font-weight: 500;
+        font-size: 0.82rem;
+        font-weight: 600;
         position: relative;
-        padding-bottom: 4px;
+        text-align: center;
+        transition: color 0.2s ease, transform 0.2s ease;
     }}
-    .site-nav-links a::after {{
-        content: "";
+    .site-nav-links a:hover {{
+        color: #C2557A;
+        transform: scale(1.08);
+    }}
+    .site-nav-cat {{
         position: absolute;
-        left: 0; bottom: 0;
-        width: 0%;
-        height: 2px;
-        background: #C2557A;
-        transition: width 0.25s ease;
+        right: 2.1rem;
+        top: 50%;
+        transform: translateY(-50%) scale(0.3) rotate(-8deg);
+        font-size: 1.6rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+        filter: drop-shadow(0 4px 6px rgba(51, 38, 42, 0.25));
     }}
-    .site-nav-links a:hover::after {{ width: 100%; }}
-    .site-nav-links a:hover {{ color: #C2557A; }}
+    .site-nav-links a:hover .site-nav-cat {{
+        transform: translateY(-50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }}
 
-    @media (max-width: 640px) {{
-        .site-nav-links {{ gap: 1rem; }}
-        .site-nav-links a {{ font-size: 0.8rem; }}
+    @media (max-width: 720px) {{
+        .site-nav {{ width: 60px; }}
+        .site-nav-links {{ gap: 1.3rem; }}
+        .site-nav-links a {{ font-size: 0.72rem; }}
+        .site-nav-cat {{ font-size: 1.2rem; right: 1.5rem; }}
+        .block-container {{ padding-right: 4rem; }}
+        .site-brand {{ font-size: 0.85rem; left: 1rem; }}
     }}
 
     /* ---------- Sections ---------- */
     .section {{
-        padding-top: 5rem;
-        margin-top: -5rem;
+        padding-top: 1.5rem;
+        margin-top: -1.5rem;
     }}
     .section-inner {{ padding: 2.5rem 0; }}
     .section-label {{
