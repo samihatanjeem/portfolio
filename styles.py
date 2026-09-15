@@ -15,8 +15,15 @@ CUSTOM_CSS = f"""
 
     .stApp {{ background: #FFFDF9; }}
 
+    /* Streamlit adds a default gap between every element block, even
+       invisible/zero-height ones (our injected <style> tag, the brand
+       div, the nav rail) - that stacks up as dead space before any real
+       content. Our own CSS (.divider, .section-inner, etc.) already
+       controls spacing explicitly, so this is safe to zero out globally. */
+    [data-testid="stVerticalBlock"] {{ gap: 0 !important; }}
+
     .block-container {{
-        padding-top: 2.2rem;
+        padding-top: 0.6rem;
         padding-bottom: 5rem;
         padding-right: 9.5rem;
         max-width: 980px;
